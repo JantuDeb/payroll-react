@@ -1,6 +1,6 @@
-import { isString, cn } from "lib/utils"
-import Svg from "ui/core/svg"
-import Checkbox from "ui/core/inputs/checkbox"
+import { isString, cn } from "@common/utils"
+import Svg from "@common/svg"
+import Checkbox from "@common/inputs/checkbox"
 import { ReactNode } from "react"
 
 export default function SelectOption({
@@ -23,7 +23,11 @@ export default function SelectOption({
         {showCheckbox && <Checkbox checked={selected} disabled={disabled} />}
         {icon &&
           (isString(icon) ? (
-            <Svg classes="w-4 h-4 text-secondary" name={icon} strokeWidth={2} />
+            <Svg
+              className="w-4 h-4 text-secondary"
+              name={icon}
+              strokeWidth={2}
+            />
           ) : (
             icon
           ))}
@@ -41,7 +45,7 @@ export default function SelectOption({
       </div>
       {selected && !showCheckbox && (
         <div className="my-auto flex justify-end">
-          <Svg name="check" classes="w-4 h-4" strokeWidth={2} />
+          <Svg name="check" className="w-4 h-4" strokeWidth={2} />
         </div>
       )}
     </>
