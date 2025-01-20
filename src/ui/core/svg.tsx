@@ -5,7 +5,7 @@ export default function Svg({
   name = "",
   viewBox = "0 0 24 24",
   styles,
-  classes = "w-6 h-6",
+  className = "w-6 h-6",
   stroke = "currentColor",
   fill = "none",
   strokeWidth,
@@ -17,7 +17,7 @@ export default function Svg({
   name: string
   viewBox?: string
   styles?: React.CSSProperties
-  classes?: string
+  className?: string
   stroke?: string
   fill?: string
   strokeWidth?: number
@@ -26,7 +26,6 @@ export default function Svg({
 }) {
   let markup = <></>
   const svgMarkup = getSVGPath(name)
-  const svg = getSVG(name, classes)
   if (svgMarkup) {
     markup = (
       <span>
@@ -34,7 +33,7 @@ export default function Svg({
           viewBox={viewBox}
           preserveAspectRatio="xMidYMid meet"
           style={styles}
-          className={classes}
+          className={className}
           stroke={stroke}
           fill={fill}
           strokeWidth={strokeWidth}
@@ -43,7 +42,7 @@ export default function Svg({
         </svg>
       </span>
     )
-  } else if (svg) markup = svg
+  }
 
   return hasTooltip ? (
     <Tooltip>
@@ -455,7 +454,7 @@ function getSVGPath(name: string) {
       )
 
     case "dot-filled":
-      return <circle cx="12" cy="12" r="3" fill="currentColor" />
+      return <circle cx="12" cy="12" r="4" fill="currentColor" />
 
     case "dot":
       return <circle cx="5" cy="5" r="3" />
@@ -558,6 +557,17 @@ function getSVGPath(name: string) {
         />
       )
 
+    case "arrow-down":
+      return (
+        <path
+          d="M5 7.5L10 12.5L15 7.5"
+          stroke="#2E3333"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      )
+
     case "arrow-down-short":
       return (
         <path
@@ -648,31 +658,6 @@ function getSVGPath(name: string) {
           d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
         />
       )
-    case "system-report":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-        />
-      )
-
-    case "instance-report":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-        />
-      )
-    case "template-report":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-        />
-      )
 
     case "question-circle":
       return (
@@ -702,13 +687,14 @@ function getSVGPath(name: string) {
         />
       )
 
-    case "home":
+    case "dasboard":
       return (
         <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          d="M9 20.9926H7C4.79086 20.9926 3 19.2017 3 16.9926V10.7002C3 9.30145 3.73061 8.00433 4.92679 7.27938L9.92679 4.24907C11.2011 3.4768 12.7989 3.47679 14.0732 4.24907L19.0732 7.27938C20.2694 8.00433 21 9.30145 21 10.7002V16.9926C21 19.2017 19.2091 20.9926 17 20.9926H15M9 20.9926V16.9926C9 15.3357 10.3431 13.9926 12 13.9926V13.9926C13.6569 13.9926 15 15.3357 15 16.9926V20.9926M9 20.9926H15"
+          stroke="#2E3333"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       )
 
@@ -724,12 +710,29 @@ function getSVGPath(name: string) {
 
     case "search":
       return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        ></path>
+        // <path
+        //   strokeLinecap="round"
+        //   strokeLinejoin="round"
+        //   strokeWidth="2"
+        //   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        // ></path>
+
+        <>
+          <path
+            d="M14.1667 14.1667L17.5001 17.5"
+            stroke="#2E3333"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0108 15.8333 12.6801 15.0846 13.887 13.8744C15.0897 12.6685 15.8333 11.0044 15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667Z"
+            stroke="#2E3333"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </>
       )
 
     case "chart-bar":
@@ -761,24 +764,6 @@ function getSVGPath(name: string) {
         ></path>
       )
 
-    case "cog":
-      return (
-        <svg>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-          ></path>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-          ></path>
-        </svg>
-      )
-
     case "user":
       return (
         <path
@@ -787,6 +772,33 @@ function getSVGPath(name: string) {
           strokeWidth="2"
           d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
         ></path>
+      )
+
+    case "user-plus":
+      return (
+        <>
+          <path
+            d="M17 10H20M23 10H20M20 10V7M20 10V13"
+            stroke="#F9FCFC"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M1 20V19C1 15.134 4.13401 12 8 12V12C11.866 12 15 15.134 15 19V20"
+            stroke="#F9FCFC"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8 12C10.2091 12 12 10.2091 12 8C12 5.79086 10.2091 4 8 4C5.79086 4 4 5.79086 4 8C4 10.2091 5.79086 12 8 12Z"
+            stroke="#F9FCFC"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </>
       )
 
     case "warning":
@@ -827,32 +839,7 @@ function getSVGPath(name: string) {
           d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
         />
       )
-    case "data-source":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-        />
-      )
-    case "product-url":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      )
-    case "search-url":
-      return (
-        <>
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </>
-      )
+
     case "drag_icon":
       return (
         <>
@@ -867,29 +854,7 @@ function getSVGPath(name: string) {
           </g>
         </>
       )
-    case "existing-source":
-      return (
-        <>
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M30.111 5H9.89A2.889 2.889 0 007 7.889V28.11A2.889 2.889 0 009.889 31H30.11A2.889 2.889 0 0033 28.111V7.89A2.889 2.889 0 0030.111 5z"
-          ></path>
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M27 21.2v-6.4c0-.281-.072-.557-.209-.8a1.578 1.578 0 00-.569-.585l-5.444-3.2a1.522 1.522 0 00-1.556 0l-5.444 3.2c-.237.14-.433.342-.57.585a1.636 1.636 0 00-.208.8v6.4c0 .281.072.557.209.8.136.243.332.445.569.585l5.444 3.2a1.522 1.522 0 001.556 0l5.444-3.2c.236-.14.433-.342.57-.585.136-.243.208-.519.208-.8z"
-          ></path>
-          <path
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M13 14l7 4 7-4M20 26v-8"
-          ></path>
-        </>
-      )
+
     case "comment":
       return (
         <path
@@ -916,16 +881,6 @@ function getSVGPath(name: string) {
           strokeLinejoin="round"
           strokeWidth="2"
           d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-        ></path>
-      )
-
-    case "beaker":
-      return (
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
         ></path>
       )
 
@@ -1184,6 +1139,33 @@ function getSVGPath(name: string) {
           d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
         />
       )
+    case "upload-plus":
+      return (
+        <>
+          <path
+            d="M22 14V8.5M6 13V6C6 4.34315 7.34315 3 9 3H14"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16.9922 4H19.9922M22.9922 4L19.9922 4M19.9922 4V1M19.9922 4V7"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12 21H6C3.79086 21 2 19.2091 2 17C2 14.7909 3.79086 13 6 13H17H18C15.7909 13 14 14.7909 14 17C14 19.2091 15.7909 21 18 21C20.2091 21 22 19.2091 22 17V14"
+            stroke="#2E3333"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </>
+      )
+
     case "share":
       return (
         <path
@@ -1242,70 +1224,6 @@ function getSVGPath(name: string) {
         />
       )
 
-    case "freetext":
-      return (
-        <g transform="translate(-152.35482,-68.691548)" id="layer1">
-          <g
-            aria-label="f"
-            fontStyle="normal"
-            fontVariant="normal"
-            fontWeight="normal"
-            fontStretch="normal"
-            fontSize="8.85855579px"
-            line-height="125%"
-            fontFamily="Qanelas Soft DEMO"
-            letterSpacing="0px"
-            wordSpacing="0px"
-            display="inline"
-            fillOpacity={1}
-            stroke="none"
-            strokeWidth="0.26458332px"
-            strokeLinecap="butt"
-            strokeLinejoin="miter"
-            strokeOpacity={1}
-            id="text4749-3-2-0-7-7-7-9-1-3-0"
-            transform="translate(110.23982,-4.5357181)"
-          >
-            <path
-              d="m 44.630828,75.750221 c 0.150595,0 0.230322,-0.07087 0.230322,-0.212605 v -0.832705 c 0,-0.141736 -0.07973,-0.230322 -0.221464,-0.230322 -1.319925,0 -1.931165,0.726402 -1.931165,1.90459 h -0.372059 c -0.141737,0 -0.221464,0.07973 -0.221464,0.221463 v 0.832705 c 0,0.141737 0.07973,0.221464 0.221464,0.221464 h 0.372059 v 2.932182 c 0,0.141736 0.07973,0.221463 0.221464,0.221463 h 0.885856 c 0.141736,0 0.221463,-0.07973 0.221463,-0.221463 v -2.932182 h 0.602382 c 0.141737,0 0.221464,-0.07973 0.221464,-0.221464 v -0.832705 c 0,-0.141736 -0.07973,-0.221463 -0.221464,-0.221463 h -0.602382 c 0,-0.425211 0.230323,-0.628958 0.593524,-0.628958 z"
-              fontStyle="normal"
-              fontVariant="normal"
-              fontWeight={800}
-              fontStretch="normal"
-              fontFamily="Qanelas Soft DEMO"
-              strokeWidth="0.26458332px"
-              id="path9590"
-            />
-          </g>
-          <path
-            d="m 157.35533,73.749784 c 0.1506,0 0.23032,0.07087 0.23032,0.212605 v 0.832704 c 0,0.141737 -0.0797,0.230323 -0.22146,0.230323 -1.31992,0 -1.93116,-0.726402 -1.93116,-1.90459 h -0.37206 c -0.14174,0 -0.22147,-0.07973 -0.22147,-0.221464 v -0.832704 c 0,-0.141737 0.0797,-0.221464 0.22147,-0.221464 h 0.37206 v -2.932182 c 0,-0.141737 0.0797,-0.221464 0.22146,-0.221464 h 0.88586 c 0.14173,0 0.22146,0.07973 0.22146,0.221464 v 2.932182 h 0.60238 c 0.14174,0 0.22146,0.07973 0.22146,0.221464 v 0.832704 c 0,0.141737 -0.0797,0.221464 -0.22146,0.221464 h -0.60238 c 0,0.425211 0.23032,0.628958 0.59352,0.628958 z"
-            fontStyle="normal"
-            fontVariant="normal"
-            fontWeight={800}
-            fontStretch="normal"
-            fontSize="8.85855579px"
-            line-height="125%"
-            fontFamily="Qanelas Soft DEMO"
-            letterSpacing="0px"
-            wordSpacing="0px"
-            display="inline"
-            fillOpacity={1}
-            stroke="none"
-            strokeWidth="0.26458332px"
-            strokeLinecap="butt"
-            strokeLinejoin="miter"
-            strokeOpacity={1}
-            id="path9593"
-          />
-        </g>
-      )
-    case "currents":
-      return (
-        <>
-          <path d="M21.3074 0.439917C16.6552 1.90048 11.2458 5.9035 7.56732 10.7179C3.34792 16.1815 -0.871479 26.0809 0.156323 27.9742C0.859556 29.1643 13.085 41.3356 13.3555 41.0651C13.4096 40.9029 14.0587 39.3341 14.7619 37.549C18.2781 28.6233 25.2022 20.5091 32.3968 16.9388C36.454 14.9373 36.9408 14.8291 41.8634 14.8291C46.7861 14.8291 47.2729 14.9373 51.1137 16.8307C53.2775 17.9666 57.1182 20.5091 59.4984 22.5647C65.6111 27.7037 69.019 29.8134 71.8861 30.138C76.43 30.6248 78.3234 29.3266 81.8936 23.2138C83.0296 21.2123 84.5443 19.3731 85.1934 19.1026C86.2753 18.6158 85.7884 18.0207 78.8643 11.4212C74.699 7.47225 71.1287 4.28065 70.8042 4.28065C70.5337 4.28065 69.56 5.52483 68.6945 7.09358C62.5277 18.0748 56.3068 18.3453 43.7568 8.06729C40.7815 5.63302 36.6703 2.82009 34.5606 1.79229C31.2609 0.169443 30.3412 -0.0469361 26.7169 0.0071587C24.499 0.0071587 22.0647 0.223538 21.3074 0.439917Z" />
-          <path d="M37.8064 20.1845C33.3707 21.3205 30.4495 23.1056 26.1219 27.4873C21.7944 31.869 18.5487 37.3326 16.6553 43.3912L15.6816 46.5287L22.1189 52.966C25.6892 56.5362 28.7185 59.4574 28.8808 59.4574C29.0431 59.4574 29.8004 58.2673 30.6118 56.8608C32.6674 53.1824 36.8868 49.3957 39.7538 48.6384C44.6765 47.286 49.0582 48.7466 55.9282 54.102C67.234 62.8112 70.101 64.1095 76.5924 63.6768C83.4625 63.1358 90.1161 58.7541 95.147 51.3972C97.9058 47.3401 101.53 39.0636 100.935 38.0899C100.34 37.0621 86.6 24.2957 86.1672 24.2957C85.8967 24.2957 85.1935 25.3235 84.5444 26.5677C81.3528 32.8968 76.917 36.0343 72.0485 35.4934C68.5323 35.0606 65.4489 33.2755 58.6329 27.7578C49.6532 20.5091 44.1896 18.5076 37.8064 20.1845Z" />
-        </>
-      )
     case "check":
       return (
         <path
@@ -1424,938 +1342,5 @@ function getSVGPath(name: string) {
 
     default:
       return null
-  }
-}
-
-function getSVG(name: string, classes: string) {
-  switch (name) {
-    case "google":
-      return (
-        <svg
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16px"
-          height="16px"
-          viewBox="0 0 48 48"
-          className="abcRioButtonSvg"
-        >
-          <g>
-            <path
-              fill="#EA4335"
-              d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-            ></path>
-            <path
-              fill="#4285F4"
-              d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-            ></path>
-            <path
-              fill="#FBBC05"
-              d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-            ></path>
-            <path
-              fill="#34A853"
-              d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-            ></path>
-            <path fill="none" d="M0 0h48v48H0z"></path>
-          </g>
-        </svg>
-      )
-    case "textNormal":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-          className={classes}
-        >
-          <path
-            d="M15 6H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 9H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 12H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 15H12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 3L3 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-
-    case "bold":
-      return (
-        <svg
-          width="21"
-          height="21"
-          viewBox="0 0 21 21"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className={classes}
-        >
-          <path
-            d="M5.02246 3.83289H11.6891C12.5732 3.83289 13.421 4.18408 14.0461 4.8092C14.6713 5.43432 15.0225 6.28216 15.0225 7.16622C15.0225 8.05027 14.6713 8.89812 14.0461 9.52324C13.421 10.1484 12.5732 10.4996 11.6891 10.4996H5.02246V3.83289Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M5.02246 10.4995H12.5225C13.4065 10.4995 14.2544 10.8507 14.8795 11.4759C15.5046 12.101 15.8558 12.9488 15.8558 13.8329C15.8558 14.7169 15.5046 15.5648 14.8795 16.1899C14.2544 16.815 13.4065 17.1662 12.5225 17.1662H5.02246V10.4995Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "code":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className={classes}
-        >
-          <path
-            d="M13.333 15L18.333 10L13.333 5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6.66699 5L1.66699 10L6.66699 15"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "link":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clipPath="url(#clip0_1834_969)">
-            <path
-              d="M8.33301 10.8333C8.69088 11.3118 9.14747 11.7077 9.6718 11.9941C10.1961 12.2806 10.7759 12.4509 11.3719 12.4936C11.9678 12.5363 12.566 12.4503 13.1258 12.2415C13.6856 12.0327 14.1939 11.7059 14.6163 11.2833L17.1163 8.78335C17.8753 7.9975 18.2953 6.94499 18.2858 5.85251C18.2763 4.76002 17.8381 3.71497 17.0656 2.94243C16.2931 2.1699 15.248 1.7317 14.1555 1.7222C13.063 1.71271 12.0105 2.13269 11.2247 2.89168L9.79134 4.31668"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M11.6668 9.16665C11.309 8.68821 10.8524 8.29233 10.328 8.00587C9.80371 7.7194 9.22391 7.54905 8.62796 7.50637C8.03201 7.46369 7.43384 7.54968 6.87405 7.7585C6.31425 7.96732 5.8059 8.29409 5.3835 8.71665L2.8835 11.2167C2.12451 12.0025 1.70453 13.055 1.71402 14.1475C1.72352 15.24 2.16172 16.285 2.93426 17.0576C3.70679 17.8301 4.75184 18.2683 5.84433 18.2778C6.93681 18.2873 7.98932 17.8673 8.77517 17.1083L10.2002 15.6833"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_1834_969">
-              <rect width="20" height="20" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      )
-    case "italic":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15.833 3.33334H8.33301"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M11.667 16.6667H4.16699"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12.5 3.33334L7.5 16.6667"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "underline":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 2.5V8.33333C5 9.65942 5.52678 10.9312 6.46447 11.8689C7.40215 12.8065 8.67392 13.3333 10 13.3333C11.3261 13.3333 12.5979 12.8065 13.5355 11.8689C14.4732 10.9312 15 9.65942 15 8.33333V2.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3.33301 17.5H17.663"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "strikethrough":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M0.833008 10L19.1663 10"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14.1667 4.16666H7.91667C7.14312 4.16666 6.40125 4.47395 5.85427 5.02093C5.30729 5.56791 5 6.30978 5 7.08332C5 7.85687 5.30729 8.59874 5.85427 9.14572C6.40125 9.6927 7.14312 9.99999 7.91667 9.99999H12.0833C12.8569 9.99999 13.5987 10.3073 14.1457 10.8543C14.6927 11.4012 15 12.1431 15 12.9167C15 13.6902 14.6927 14.4321 14.1457 14.9791C13.5987 15.526 12.8569 15.8333 12.0833 15.8333H5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "h5":
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-          <text
-            x="1"
-            y="16"
-            font-family="Arial"
-            font-size="16"
-            fill="currentColor"
-          >
-            h<tspan font-size="12">5</tspan>
-          </text>
-        </svg>
-      )
-    case "h4":
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-          <text
-            x="1"
-            y="16"
-            font-family="Arial"
-            font-size="16"
-            fill="currentColor"
-          >
-            h<tspan font-size="12">4</tspan>
-          </text>
-        </svg>
-      )
-
-    case "h3":
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-          <text
-            x="1"
-            y="16"
-            font-family="Arial"
-            font-size="16"
-            fill="currentColor"
-          >
-            h<tspan font-size="12">3</tspan>
-          </text>
-        </svg>
-      )
-    case "h2":
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-          <text
-            x="1"
-            y="16"
-            font-family="Arial"
-            font-size="16"
-            fill="currentColor"
-          >
-            h<tspan font-size="12">2</tspan>
-          </text>
-        </svg>
-      )
-    case "h1":
-      return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-          <text
-            x="1"
-            y="16"
-            font-family="Arial"
-            font-size="16"
-            fill="currentColor"
-          >
-            h<tspan font-size="12">1</tspan>
-          </text>
-        </svg>
-      )
-    case "bulletList":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M6 5L16 5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 10L16 10"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 15L16 15"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3 5H3.01"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3 10H3.01"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3 15H3.01"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-
-    case "numberedList":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          className={classes}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M6 5L16 5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 10L16 10"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 15L16 15"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3.16974 3.81818V6H2.64347V4.31037H2.63068L2.14276 4.60866V4.1527L2.68075 3.81818H3.16974Z"
-            fill="currentColor"
-          />
-          <path
-            d="M2.16087 11V10.6207L2.95668 9.92401C3.01634 9.87003 3.06712 9.82067 3.10902 9.77592C3.15092 9.73047 3.18288 9.68501 3.2049 9.63956C3.22692 9.59339 3.23793 9.54332 3.23793 9.48935C3.23793 9.42898 3.22479 9.37749 3.19851 9.33487C3.17223 9.29155 3.13601 9.25817 3.08984 9.23473C3.04368 9.21129 2.99077 9.19957 2.93111 9.19957C2.87074 9.19957 2.81783 9.212 2.77237 9.23686C2.72692 9.26101 2.69141 9.29616 2.66584 9.34233C2.64098 9.38849 2.62855 9.4446 2.62855 9.51065H2.12891C2.12891 9.36222 2.16229 9.23402 2.22905 9.12607C2.29581 9.01811 2.38956 8.93501 2.5103 8.87678C2.63175 8.81783 2.77273 8.78835 2.93324 8.78835C3.09872 8.78835 3.24254 8.81605 3.3647 8.87145C3.48686 8.92685 3.58132 9.00426 3.64808 9.10369C3.71555 9.20241 3.74929 9.31712 3.74929 9.4478C3.74929 9.53089 3.7326 9.61328 3.69922 9.69496C3.66584 9.77663 3.60582 9.86683 3.51918 9.96555C3.43324 10.0643 3.31108 10.1825 3.1527 10.3203L2.89169 10.5611V10.5749H3.77592V11H2.16087Z"
-            fill="currentColor"
-          />
-          <path
-            d="M2.99077 16.0298C2.82457 16.0298 2.6772 16.0014 2.54865 15.9446C2.42081 15.8871 2.31996 15.8079 2.24609 15.707C2.17223 15.6062 2.13459 15.4901 2.13317 15.3587H2.66371C2.66584 15.4062 2.68111 15.4485 2.70952 15.4854C2.73793 15.5217 2.77663 15.5501 2.82564 15.5707C2.87464 15.5913 2.9304 15.6016 2.9929 15.6016C3.0554 15.6016 3.11044 15.5906 3.15803 15.5685C3.20632 15.5458 3.24396 15.5149 3.27095 15.4759C3.29794 15.4361 3.31108 15.3906 3.31037 15.3395C3.31108 15.2884 3.29652 15.2429 3.26669 15.2031C3.23686 15.1634 3.1946 15.1325 3.13991 15.1104C3.08594 15.0884 3.02202 15.0774 2.94815 15.0774H2.73615V14.7024H2.94815C3.01278 14.7024 3.0696 14.6918 3.11861 14.6705C3.16832 14.6491 3.20703 14.6193 3.23473 14.581C3.26243 14.5419 3.27592 14.4972 3.27521 14.4467C3.27592 14.3977 3.2642 14.3548 3.24006 14.3178C3.21662 14.2802 3.18359 14.2511 3.14098 14.2305C3.09908 14.2099 3.05043 14.1996 2.99503 14.1996C2.93679 14.1996 2.88388 14.2099 2.83629 14.2305C2.78942 14.2511 2.75213 14.2802 2.72443 14.3178C2.69673 14.3555 2.68217 14.3991 2.68075 14.4489H2.17685C2.17827 14.3189 2.21449 14.2045 2.28551 14.1058C2.35653 14.0064 2.45313 13.9286 2.57528 13.8725C2.69815 13.8164 2.83807 13.7884 2.99503 13.7884C3.15128 13.7884 3.28871 13.8157 3.40732 13.8704C3.52592 13.9251 3.61825 13.9996 3.6843 14.0941C3.75036 14.1879 3.78338 14.294 3.78338 14.4126C3.78409 14.5355 3.74396 14.6367 3.663 14.7163C3.58274 14.7958 3.4794 14.8448 3.35298 14.8633V14.8803C3.52202 14.9002 3.6495 14.9549 3.73544 15.0444C3.82209 15.1339 3.86506 15.2457 3.86435 15.38C3.86435 15.5064 3.82706 15.6186 3.75249 15.7166C3.67862 15.8139 3.57564 15.8906 3.44354 15.9467C3.31214 16.0021 3.16122 16.0298 2.99077 16.0298Z"
-            fill="currentColor"
-          />
-        </svg>
-      )
-
-    case "quote":
-      return (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          className={classes}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clipPath="url(#clip0_1828_863)">
-            <path
-              d="M6.848 13.56C6.068 13.56 5.496 13.3867 5.132 13.04C4.78533 12.676 4.612 12.2253 4.612 11.688V11.142C4.612 10.6393 4.68133 10.1367 4.82 9.634C4.976 9.114 5.17533 8.62 5.418 8.152C5.678 7.684 5.98133 7.25067 6.328 6.852C6.67467 6.436 7.04733 6.072 7.446 5.76H9.864C9.292 6.28 8.798 6.80867 8.382 7.346C7.98333 7.88333 7.68 8.48133 7.472 9.14C8.02667 9.244 8.434 9.478 8.694 9.842C8.954 10.1887 9.084 10.5873 9.084 11.038V11.688C9.084 12.2253 8.902 12.676 8.538 13.04C8.19133 13.3867 7.628 13.56 6.848 13.56ZM12.958 13.56C12.178 13.56 11.606 13.3867 11.242 13.04C10.8953 12.676 10.722 12.2253 10.722 11.688V11.142C10.722 10.6393 10.7913 10.1367 10.93 9.634C11.086 9.114 11.2853 8.62 11.528 8.152C11.788 7.684 12.0913 7.25067 12.438 6.852C12.7847 6.436 13.1573 6.072 13.556 5.76H15.974C15.402 6.28 14.908 6.80867 14.492 7.346C14.0933 7.88333 13.79 8.48133 13.582 9.14C14.1367 9.244 14.544 9.478 14.804 9.842C15.064 10.1887 15.194 10.5873 15.194 11.038V11.688C15.194 12.2253 15.012 12.676 14.648 13.04C14.3013 13.3867 13.738 13.56 12.958 13.56Z"
-              fill="currentColor"
-            />
-          </g>
-          <defs>
-            <clipPath id="clip0_1828_863">
-              <rect width="20" height="20" rx="2" fill="white" />
-            </clipPath>
-          </defs>
-        </svg>
-      )
-    case "centerAlign":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          className={classes}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12.5 3L5.5 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 6H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12 9H6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14 12H4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10.5 15H7.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "justifyAlign":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          className={classes}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 3L7 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M5 3L3 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 6L12 6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 6L3 6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 9L10 9"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M8 9H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 12H12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 15H12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 15H7"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M5 15H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 12L3 12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "leftAlign":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          className={classes}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 6H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9 9H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M13 12H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6 15H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10 3L3 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "rightAlign":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          className={classes}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M15 3L8 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 6H3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 9H9"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 12H5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 15H12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-
-    case "markdown":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z"
-          />
-        </svg>
-      )
-    case "write":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M9 15H15.75"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12.375 2.62499C12.6734 2.32662 13.078 2.159 13.5 2.159C13.7089 2.159 13.9158 2.20015 14.1088 2.2801C14.3019 2.36006 14.4773 2.47725 14.625 2.62499C14.7727 2.77272 14.8899 2.94811 14.9699 3.14114C15.0498 3.33417 15.091 3.54105 15.091 3.74999C15.091 3.95892 15.0498 4.1658 14.9699 4.35883C14.8899 4.55186 14.7727 4.72725 14.625 4.87499L5.25 14.25L2.25 15L3 12L12.375 2.62499Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "facts":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M6.75 8.25L9 10.5L16.5 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15.75 9V14.25C15.75 14.6478 15.592 15.0294 15.3107 15.3107C15.0294 15.592 14.6478 15.75 14.25 15.75H3.75C3.35218 15.75 2.97064 15.592 2.68934 15.3107C2.40804 15.0294 2.25 14.6478 2.25 14.25V3.75C2.25 3.35218 2.40804 2.97064 2.68934 2.68934C2.97064 2.40804 3.35218 2.25 3.75 2.25H12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "expand":
-      return (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      )
-    case "compact":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3 10.5H7.5V15"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 7.5H10.5V3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M10.5 7.5L15.75 2.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2.25 15.75L7.5 10.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "paraphrase":
-      return (
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3 15.75V10.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M3 7.5V2.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9 15.75V9"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M9 6V2.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 15.75V12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M15 8.75V2"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M0.75 10.5H5.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M6.75 6H11.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M12.75 12H17.25"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      )
-    case "bubble":
-      return (
-        <svg
-          className={classes}
-          viewBox="0 0 24 23"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M2.40137 0H0.800455C0.358376 0 0 0.355084 0 0.793103V2.37931C0 2.81733 0.358376 3.17241 0.800455 3.17241H2.40137C2.84345 3.17241 3.20182 2.81733 3.20182 2.37931V0.793103C3.20182 0.355084 2.84345 0 2.40137 0Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M2.40137 3.9656H0.800455C0.358376 3.9656 0 4.32068 0 4.7587V6.34491C0 6.78293 0.358376 7.13801 0.800455 7.13801H2.40137C2.84345 7.13801 3.20182 6.78293 3.20182 6.34491V4.7587C3.20182 4.32068 2.84345 3.9656 2.40137 3.9656Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M2.40137 7.93103H0.800455C0.358376 7.93103 0 8.28612 0 8.72414V10.3103C0 10.7484 0.358376 11.1034 0.800455 11.1034H2.40137C2.84345 11.1034 3.20182 10.7484 3.20182 10.3103V8.72414C3.20182 8.28612 2.84345 7.93103 2.40137 7.93103Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M2.40137 11.8966H0.800455C0.358376 11.8966 0 12.2516 0 12.6897V14.2759C0 14.7139 0.358376 15.069 0.800455 15.069H2.40137C2.84345 15.069 3.20182 14.7139 3.20182 14.2759V12.6897C3.20182 12.2516 2.84345 11.8966 2.40137 11.8966Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M2.40137 15.8619H0.800455C0.358376 15.8619 0 16.2169 0 16.655V18.2412C0 18.6792 0.358376 19.0343 0.800455 19.0343H2.40137C2.84345 19.0343 3.20182 18.6792 3.20182 18.2412V16.655C3.20182 16.2169 2.84345 15.8619 2.40137 15.8619Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M2.40137 19.8276H0.800455C0.358376 19.8276 0 20.1827 0 20.6207V22.2069C0 22.6449 0.358376 23 0.800455 23H2.40137C2.84345 23 3.20182 22.6449 3.20182 22.2069V20.6207C3.20182 20.1827 2.84345 19.8276 2.40137 19.8276Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M6.60376 20.819H5.30302C4.94383 20.819 4.65265 21.0409 4.65265 21.3147V22.306C4.65265 22.5798 4.94383 22.8017 5.30302 22.8017H6.60376C6.96295 22.8017 7.25413 22.5798 7.25413 22.306V21.3147C7.25413 21.0409 6.96295 20.819 6.60376 20.819Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M13.7579 20.819H8.55489C8.19573 20.819 7.90452 21.0409 7.90452 21.3147V22.3061C7.90452 22.5799 8.19573 22.8018 8.55489 22.8018H13.7579C14.117 22.8018 14.4082 22.5799 14.4082 22.3061V21.3147C14.4082 21.0409 14.117 20.819 13.7579 20.819Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M23.3613 20.819H15.6973C15.3445 20.819 15.0586 21.0409 15.0586 21.3147V22.3061C15.0586 22.5799 15.3445 22.8018 15.6973 22.8018H23.3613C23.714 22.8018 24 22.5799 24 22.3061V21.3147C24 21.0409 23.714 20.819 23.3613 20.819Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M12.0068 6.34483C12.0068 4.59275 13.4403 3.17241 15.2087 3.17241C16.977 3.17241 18.4105 4.59275 18.4105 6.34483C18.4105 8.0969 16.977 9.51724 15.2087 9.51724C13.4403 9.51724 12.0068 8.0969 12.0068 6.34483Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M7.2041 13.4828C7.2041 12.1687 8.27923 11.1034 9.60547 11.1034C10.9317 11.1034 12.0068 12.1687 12.0068 13.4828C12.0068 14.7968 10.9317 15.8621 9.60547 15.8621C8.27923 15.8621 7.2041 14.7968 7.2041 13.4828Z"
-            fill="#041E3C"
-          />
-          <path
-            d="M15.2087 16.2586C15.2087 15.1636 16.1046 14.2759 17.2098 14.2759C18.315 14.2759 19.2109 15.1636 19.2109 16.2586C19.2109 17.3537 18.315 18.2414 17.2098 18.2414C16.1046 18.2414 15.2087 17.3537 15.2087 16.2586Z"
-            fill="#333333"
-          />
-        </svg>
-      )
   }
 }

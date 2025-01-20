@@ -36,14 +36,6 @@ export function isObjectsEqual(obj1: unknown, obj2: unknown): boolean {
     const obj1AsObject = obj1 as Record<string, unknown>
     const obj2AsObject = obj2 as Record<string, unknown>
 
-    // Check if both objects are JSX elements
-    if (
-      (obj1 as ReactElement).$$typeof === Symbol.for("react.element") ||
-      (obj2 as ReactElement).$$typeof === Symbol.for("react.element")
-    ) {
-      return obj1 === obj2
-    }
-
     if (Object.keys(obj1AsObject).length != Object.keys(obj2AsObject).length)
       return false
 
@@ -89,18 +81,11 @@ export function getQueryString(url: string | undefined): string | undefined {
   return url?.substring(url?.indexOf("?") + 1)
 }
 
-interface LexicalEditorState {
-  _nodeMap?: unknown
-  _selection?: unknown
-}
-
 export function deepCopyObject<T extends JsonValue>(obj: T): T {
   if (
     typeof obj !== "object" ||
     obj === null ||
-    (obj as ReactElement).$$typeof === Symbol.for("react.element") ||
-    (obj as LexicalEditorState)._nodeMap ||
-    (obj as LexicalEditorState)._selection
+    (obj as ReactElement).$$typeof === Symbol.for("react.element")
   ) {
     return obj
   }
@@ -117,8 +102,13 @@ export function deepCopyObject<T extends JsonValue>(obj: T): T {
       )
     }
   }
-
   return copiedObject as T
+}
+
+export function mergeObjects<T extends object, U extends object>(
+  ...objects: [T, U]
+): T & U {
+  return Object.assign({}, ...objects)
 }
 
 export function getQueryParams(urlString: string): Record<string, string> {

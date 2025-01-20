@@ -1,11 +1,12 @@
-import { useRef, useEffect, HTMLProps } from "react"
-import { isFunction, cn } from "lib/utils"
-import Label, { LabelProps } from "ui/core/forms/label"
+import { useRef, useEffect, ComponentProps } from "react"
+import { isFunction, cn } from "@common/utils"
+import Label, { LabelProps } from "@common/forms/label"
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
+import Svg from "../svg"
 
-type CheckboxProps = Omit<HTMLProps<HTMLInputElement>, "label" | "onChange"> & {
+export type CheckboxProps = ComponentProps<typeof CheckboxPrimitive.Root> & {
   indeterminate?: boolean
   id?: string
-  isRadio?: boolean
   required?: boolean
   label?: LabelProps
   onChange?: (checked: boolean) => void
@@ -16,28 +17,15 @@ const Checkbox = ({
   indeterminate,
   label = {},
   required,
-  isRadio = false,
+  // isRadio = false,
   id,
   onChange,
   disabled = false,
+  className,
   ...rest
 }: CheckboxProps) => {
-  const ref = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (ref.current) {
-      if (typeof indeterminate === "boolean") {
-        // Set indeterminate only if checked is false
-        ref.current.indeterminate = !rest.checked && indeterminate
-      } else {
-        // If indeterminate is not defined or false, set checked
-        ref.current.checked = rest.checked || false
-      }
-    }
-  }, [ref, indeterminate, rest.checked])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.checked)
+  const handleChange = (checked: boolean) => {
+    onChange?.(checked)
   }
 
   return (
@@ -48,12 +36,12 @@ const Checkbox = ({
       font="normal"
       id={id}
     >
-      <div className="flex items-center">
-        <input
+      <div className="flex items-center justify-center">
+        {/* <input
           {...rest}
           ref={ref}
           className={cn(
-            "text-primary dark:text-muted bg-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0  border-gray-500 dark:border-gray-700 focus:border-gray-500  dark:focus:border-gray-700 dark:checked:border-gray-700 dark:checked:focus:border-gray-700 disabled:cursor-not-allowed disabled:opacity-70",
+            "peer h-4 w-4 shrink-0 rounded-sm border border-accent shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-accent data-[state=checked]:text-primary-foreground",
             isRadio
               ? "rounded-full radio-checkmark checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary "
               : "",
@@ -64,7 +52,23 @@ const Checkbox = ({
           onChange={handleChange}
           readOnly={!isFunction(onChange)}
           disabled={disabled}
-        />
+        /> */}
+        <CheckboxPrimitive.Root
+          className={cn(
+            "peer h-4 w-4 shrink-0 rounded-sm border shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-accent data-[state=checked]:text-accent",
+            className,
+          )}
+          onCheckedChange={handleChange}
+          // onChange={handleChange}
+          {...rest}
+          // checked={indeterminate ? "indeterminate" : rest.checked}
+        >
+          <CheckboxPrimitive.Indicator
+            className={cn("flex items-center justify-center text-accent")}
+          >
+            <Svg name="check" className="size-3 font-medium" />
+          </CheckboxPrimitive.Indicator>
+        </CheckboxPrimitive.Root>
       </div>
     </Label>
   )

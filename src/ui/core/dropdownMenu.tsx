@@ -1,9 +1,9 @@
 import { ReactNode } from "react"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
-import { Option } from "ui/core/types"
-import DropdownOptionMenu from "ui/core/dropDownOption"
-import { cn } from "lib/utils"
-import Svg from "ui/core/svg"
+import { Option } from "@common/types"
+import DropdownOptionMenu from "@common/dropDownOption"
+import { cn } from "@common/utils"
+import Svg from "@common/svg"
 
 type DropdownMenuStyledProps = {
   options: Record<string, Option>
@@ -43,7 +43,7 @@ export default function DropdownMenuStyled({
               disabled ? "opacity-50 cursor-not-allowed" : "",
             )}
           >
-            <Svg name="arrow-down-short" classes="w-5 h-5" />
+            <Svg name="arrow-down-short" className="w-5 h-5" />
           </div>
         )}
       </DropdownMenu.Trigger>
