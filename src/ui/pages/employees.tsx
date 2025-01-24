@@ -8,18 +8,42 @@ import { useState } from "react"
 import Spinner from "@common/spinner"
 import { toast } from "sonner"
 import EmplyoeeUploadSuccess from "../components/employees/employeeSuccessModal"
-
+import { useEmployeesList } from "@src/lib/queryFns"
+import EmplyoeesTable from "../components/employees/emplyoeesTable"
+import EmployeeStats from "../components/employees/employeeStats"
+import { cn } from "../core/utils"
+const orgId = "73cccf13-cf33-4afe-a254-ede4b208fcdb" //TODO: replace this with actual orgId from context account details
 export default function Emplyoees() {
   const [open, setOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false) // this needs to be replaced with react-query loading state we need mutate
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+
+  const { error, data, isFetching, isLoading, isFetched, refetch } =
+    useEmployeesList(orgId)
+  console.log("data", data)
 
   function handleUploadComplete() {
     setOpen(false)
-    setIsLoading(true)
-    //TODO: replace this with react-query mutate
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    refetch().then(() => {
+      toast.success(
+        <p className="flex gap-2 items-center text-base font-semibold">
+          <Svg
+            name="check"
+            className="size-5 border border-primary rounded-full p-0.5"
+          />
+          Employees successsfully added
+        </p>,
+        {
+          position: "bottom-center",
+        },
+      )
+      setTimeout(() => {
+        setShowSuccessModal(true)
+      }, 1000)
+    })
+
+    // setTimeout(() => {
+    //   setShowSuccessModal(false)
+    // }, 2000)
   }
   return (
     <div className="h-full w-full bg-secondary-foreground">
@@ -32,9 +56,15 @@ export default function Emplyoees() {
           Add Employee
         </Button>
       </div>
-      <div className="m-6 rounded-xl border bg-background ">
+
+      <div
+        className={cn(
+          "m-6 rounded-xl bg-background",
+          (data?.length == 0 || isLoading) && "border",
+        )}
+      >
         {/* Empty Employees */}
-        {!isLoading && (
+        {data?.length == 0 && !isFetching && (
           <EmptyEmployees>
             <Modal open={open} onOpenChange={setOpen}>
               <Modal.Button asChild>
@@ -47,23 +77,7 @@ export default function Emplyoees() {
                 <BulkUploadEmployees onUploadComplete={handleUploadComplete} />
               </Modal.Content>
             </Modal>
-            <Button
-              variant="accent"
-              onClick={() =>
-                toast.success(
-                  <p className="flex gap-2 items-center text-base font-semibold">
-                    <Svg
-                      name="check"
-                      className="size-5 border border-primary rounded-full p-0.5"
-                    />
-                    Employees successsfully added
-                  </p>,
-                  {
-                    position: "bottom-center",
-                  },
-                )
-              }
-            >
+            <Button variant="accent">
               <Svg name="user-plus" className="size-5" />
               Add Employee
             </Button>
@@ -71,14 +85,31 @@ export default function Emplyoees() {
         )}
 
         {/* Loading state */}
-        {isLoading && (
+        {(isLoading || isFetching) && (
           <div className="flex items-center justify-center w-full h-96">
             <Spinner />
           </div>
         )}
+
+        {/* Error state */}
+        {error && (
+          <div className="flex items-center justify-center w-full h-96">
+            <p className="text-secondary font-semibold">
+              Error fetching employees
+            </p>
+          </div>
+        )}
       </div>
 
-      <EmplyoeeUploadSuccess />
+      {/* Employees Table */}
+      {data?.length !== 0 && !isLoading && (
+        <>
+          <EmployeeStats />
+          <EmplyoeesTable data={data} />
+        </>
+      )}
+
+      {showSuccessModal && <EmplyoeeUploadSuccess show={showSuccessModal} />}
     </div>
   )
 }

@@ -1,5 +1,4 @@
-import React from "react"
-import Card, { CardContent } from "@common/cards/card"
+import Card from "@common/cards/card"
 import { Header } from "@common/header"
 
 const StatCard = ({ title, mainNumber, mainLabel, data, graph }) => {

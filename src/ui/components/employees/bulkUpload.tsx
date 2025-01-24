@@ -3,51 +3,11 @@ import emptyLogo from "@assets/empty-folder.png"
 import excelLogo from "@assets/ms-excel.png"
 import { Header } from "@common/header"
 import Svg from "@common/svg"
-import Modal from "@common/modal"
 import FileUploadWrapper from "@common/fileUpload"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import Progress from "@common/progress"
-
-// Mock the `axios` function
-const axios = {
-  post: (
-    url: string,
-    formData: FormData,
-    config: {
-      onUploadProgress?: (progressEvent: {
-        loaded: number
-        total: number
-      }) => void
-      headers: Record<string, string>
-    },
-  ) => {
-    return new Promise((resolve, reject) => {
-      const totalSize = 100000 // Simulated total file size (in bytes)
-      let uploadedSize = 0
-
-      // Simulate upload progress
-      const interval = setInterval(() => {
-        uploadedSize += 10000 // Simulate 10 KB upload at a time
-
-        // Call the onUploadProgress callback with simulated progress
-        if (config.onUploadProgress) {
-          const progressEvent = {
-            loaded: uploadedSize,
-            total: totalSize,
-          }
-          config.onUploadProgress(progressEvent)
-        }
-
-        // Resolve after 100% progress
-        if (uploadedSize >= totalSize) {
-          clearInterval(interval)
-          resolve({ data: "Upload complete!" })
-        }
-      }, 200) // Simulate progress every 200ms
-    })
-  },
-}
+import { useBulkImportEmployees } from "@src/lib/queryFns"
 
 export default function BulkUploadEmployees({
   onUploadComplete,
@@ -57,27 +17,19 @@ export default function BulkUploadEmployees({
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
+  const mutation = useBulkImportEmployees()
+
   const handleFileSelect = async (file: File) => {
     if (!file) return
-
     setIsUploading(true)
-    setUploadProgress(0)
-
-    const formData = new FormData()
-    formData.append("file", file)
-
     try {
-      await axios.post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded / progressEvent.total) * 100,
-          )
-          setUploadProgress(progress)
-        },
+      const result = await mutation.mutateAsync({
+        onProgress: (progress) => setUploadProgress(progress),
+        csvFile: file,
+        organizationId: "73cccf13-cf33-4afe-a254-ede4b208fcdb",
       })
+      await new Promise((resolve) => setTimeout(resolve, 1000)) //delay for 1 second to showe progress bar
+      console.log("result", result)
       onUploadComplete({ message: "Upload complete!" })
     } catch (error) {
       console.error("Error uploading file:", error)

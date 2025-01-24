@@ -184,7 +184,7 @@ export const data = [
   },
 ]
 
-export default function EmplyoeesTable() {
+export default function EmplyoeesTable({}: { data: any }) {
   const columns = useMemo(
     () => [
       {

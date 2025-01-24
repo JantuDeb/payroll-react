@@ -1,7 +1,7 @@
 import DashboardLayout from "@layouts/dashboardLayout"
 import DefaultRoute from "@components/defaultRoute"
 import { Outlet } from "react-router"
-import Emplyoees from "@pages/emplyoees"
+import Emplyoees from "@src/ui/pages/employees"
 import Payroll from "./ui/pages/payroll"
 export const dashboardRoutes = [
   {

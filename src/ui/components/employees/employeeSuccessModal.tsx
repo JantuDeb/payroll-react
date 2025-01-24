@@ -4,9 +4,9 @@ import Button from "@src/ui/core/button"
 import { Header } from "@src/ui/core/header"
 import Lottie from "react-lottie"
 import animationData from "@assets/animations/employee-success.json"
-import { useState } from "react"
+import { use, useEffect, useState } from "react"
 
-export default function EmplyoeeUploadSuccess() {
+export default function EmplyoeeUploadSuccess({ show }: { show: boolean }) {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -15,7 +15,12 @@ export default function EmplyoeeUploadSuccess() {
       preserveAspectRatio: "xMidYMid slice",
     },
   }
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(show)
+
+  useEffect(() => {
+    if (!open) setOpen(show)
+  }, [show])
+
   return (
     <>
       {open && (
@@ -44,7 +49,12 @@ export default function EmplyoeeUploadSuccess() {
               </Header.Description>
             </div>
             <div className="w-full grid grid-cols-2 gap-4">
-              <Button variant="outline" size="xs" width="full">
+              <Button
+                variant="outline"
+                size="xs"
+                width="full"
+                onClick={() => setOpen(false)}
+              >
                 I'll do it later
               </Button>
               <Button

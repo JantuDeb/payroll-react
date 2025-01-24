@@ -1,8 +1,5 @@
-import Button from "@common/button"
 import { Header } from "@common/header"
 import searchIcon from "@assets/search-user.png"
-import Modal from "@common/modal"
-import Svg from "@common/svg"
 
 export default function EmptyEmployees({
   children,
