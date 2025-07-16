@@ -1,8 +1,8 @@
-import Svg from "ui/core/svg"
-import Tooltip from "ui/core/tooltip"
+import Svg from "@common/svg"
+import Tooltip from "@common/tooltip"
 import { ReactNode } from "react"
 import { VariantProps, cva } from "class-variance-authority"
-import { cn } from "lib/utils"
+import { cn } from "@common/utils"
 
 interface LabelBaseProps {
   id?: string
@@ -96,7 +96,7 @@ export default function Label({
     return (
       <Tooltip>
         <Tooltip.Trigger>
-          <Svg name="question-mark-circle" classes="w-4 h-4 text-secondary" />
+          <Svg name="question-mark-circle" className="w-4 h-4 text-secondary" />
         </Tooltip.Trigger>
         <Tooltip.Content>{info}</Tooltip.Content>
       </Tooltip>

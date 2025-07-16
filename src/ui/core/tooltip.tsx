@@ -50,12 +50,12 @@ function Content({ children, className, side = "top" }: ContentProps) {
         side={side}
         className={
           className ||
-          "p-2 text-xs bg-white dark:bg-zinc-800 rounded-md shadow-md"
+          "p-2 text-xs bg-background dark:bg-zinc-800 rounded-md shadow-md"
         }
         sideOffset={5}
       >
         {children}
-        <TooltipPrimitive.Arrow className="fill-white dark:fill-zinc-800" />
+        <TooltipPrimitive.Arrow className="fill-background dark:fill-zinc-800" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   )

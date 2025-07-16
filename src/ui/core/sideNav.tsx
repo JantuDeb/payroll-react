@@ -1,9 +1,10 @@
 import React, { useState } from "react"
-import Tooltip from "ui/core/tooltip"
-import Svg from "ui/core/svg"
-import { isFunction, cn, isString } from "lib/utils"
-import DropdownMenu from "ui/core/dropdownMenu"
+import Tooltip from "@common/tooltip"
+import Svg from "@common/svg"
+import { isFunction, cn, isString } from "@common/utils"
+import DropdownMenu from "@common/dropdownMenu"
 // import useIsMobile from "ui/hooks/useIsMobile"
+import { motion } from "framer-motion"
 
 export type MenuItem = {
   key: string
@@ -107,7 +108,7 @@ export function SideNavLink({
           )}
         >
           {showIcon && isString(icon) ? (
-            <Svg classes={iconClasses} name={icon} />
+            <Svg className={iconClasses} name={icon} />
           ) : (
             icon
           )}
@@ -117,7 +118,7 @@ export function SideNavLink({
           {!isCollapsed && hasItems && collapsible && (
             <Svg
               name="arrow-right-short"
-              classes={cn(
+              className={cn(
                 "w-4 h-4 transition-transform ml-2",
                 isOpen ? "rotate-90" : "",
               )}
@@ -130,7 +131,12 @@ export function SideNavLink({
   )
   if (action || !url) {
     return (
-      <button className={anchorClasses} key={itemKey} onClick={onClick}>
+      <button
+        className={anchorClasses}
+        key={itemKey}
+        onClick={onClick}
+        type="button"
+      >
         {renderContent()}
       </button>
     )
@@ -167,9 +173,10 @@ function SideNavItem({
   // const isMobile = useIsMobile()
   const subType = "inline" //isMobile ? "inline" : "popover" // no popover mode for mobile
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(items && items.length < 2)
   const isSelected =
-    itemKey === selectedKey || selectedKey?.split("/").includes(itemKey)
+    itemKey === selectedKey ||
+    selectedKey?.split("/").slice(-1).includes(itemKey)
 
   function handleMenuItemClick() {
     if (items.length > 0 && subType === "inline") setIsOpen(!isOpen)
@@ -252,7 +259,8 @@ function SideNavItem({
         options={popoverOptions}
         onSelect={(key: string) => {
           const menuItem = items.find((item) => item.key === key)
-          if (menuItem?.action && isFunction(onItemClick)) onItemClick(menuItem)
+          if (menuItem?.action && isFunction(onItemClick))
+            onItemClick?.(menuItem)
         }}
         align="end"
       >
@@ -261,10 +269,14 @@ function SideNavItem({
     )
   }
 
+  const animationVariants = {
+    open: { height: "auto", opacity: 1 },
+    closed: { height: 0, opacity: 0 },
+  }
   return (
     <>
       {<SideNavLink {...linkProps} isParent />}
-      {!isCollapsed && (isOpen || !collapsible) && (
+      {/* {!isCollapsed && (isOpen || !collapsible) && (
         <div className="mt-1 space-y-2">
           {items.map(({ key, ...rest }) => (
             <SideNavItem
@@ -279,8 +291,30 @@ function SideNavItem({
               collapsible={collapsible}
             />
           ))}
-        </div>
-      )}
+        </div> */}
+
+      <motion.div
+        initial={!isCollapsed && (isOpen || !collapsible) ? "open" : "closed"}
+        animate={!isCollapsed && (isOpen || !collapsible) ? "open" : "closed"}
+        variants={animationVariants}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="mt-1 space-y-2 overflow-hidden"
+      >
+        {items.map(({ key, ...rest }) => (
+          <SideNavItem
+            {...rest}
+            key={key}
+            itemKey={key}
+            isCollapsed={isCollapsed}
+            subItemsType={rest.subItemsType || subItemsType}
+            onItemClick={onItemClick}
+            selectedKey={selectedKey}
+            depth={depth + 1}
+            collapsible={collapsible}
+          />
+        ))}
+      </motion.div>
+      {/* )} */}
     </>
   )
 }
