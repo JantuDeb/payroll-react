@@ -1,44 +1,4 @@
-// import { joinClassNames } from "@common/lib/util"
-// import HeadCell from "@common/table/head/headCell"
-// import TableHeadRow from "@common/table/head/tableHeadRow"
-// import {
-//   ColumnVirtualizer,
-//   RTable,
-//   TableHeadCellProps,
-// } from "@common/table/types"
-// import React from "react"
 
-// const TableHead = ({
-//   table, // columnVirtualizer,
-// }: {
-//   table: RTable
-//   // columnVirtualizer?: ColumnVirtualizer
-// }) => {
-//   const {
-//     options: { themes, enableRowVirtualization },
-//   } = table
-//   const headerGroups = table.getHeaderGroups()
-//   return (
-//     <thead
-//       className={joinClassNames(
-//         themes.tHeadStickyClasses,
-//         enableRowVirtualization ? "grid" : "",
-//       )}
-//       ref={table.refs.tableHeaderRef}
-//     >
-//       {headerGroups.map((headerGroup) => (
-//         <TableHeadRow
-//           headerGroup={headerGroup}
-//           table={table}
-//           key={headerGroup.id}
-//           // columnVirtualizer={columnVirtualizer}
-//         />
-//       ))}
-//     </thead>
-//   )
-// }
-
-// export default TableHead
 
 import { TableHeadRow } from "./tableHeadRow"
 import {
